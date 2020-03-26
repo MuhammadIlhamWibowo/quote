@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'models/quote.dart';
+import 'components/quote_card.dart';
 
 void main() => runApp(MaterialApp(
       home: QuoteList(),
@@ -17,37 +18,6 @@ class _QuoteListState extends State<QuoteList> {
     Quote(author: 'Anna Borodin', text: 'quote two'),
     Quote(author: 'Charlie Oscar', text: 'quote three'),
   ];
-
-  Widget qouteTemplate(quote) {
-    return Card(
-      elevation: 4.0,
-      margin: EdgeInsets.fromLTRB(16.0, 18.0, 16.0, 0),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Text(
-              quote.text,
-              style: TextStyle(
-                  color: Colors.black87,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.0,
-                  letterSpacing: 1.5),
-            ),
-            SizedBox(height: 6.0,),
-            Text(
-              quote.author,
-              style: TextStyle(
-                  color: Colors.grey[700],
-                  fontSize: 14.0,
-                  letterSpacing: 1.3),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +38,13 @@ class _QuoteListState extends State<QuoteList> {
       ),
       body: Column(
         children: quotes
-            .map((quote) => qouteTemplate(quote))
+            .map((quote) => QuoteCard(
+                quote: quote,
+                delete: () {
+                  setState(() {
+                    quotes.remove(quote);
+                  });
+                }))
             .toList(),
       ),
     );
